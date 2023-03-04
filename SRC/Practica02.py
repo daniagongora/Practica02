@@ -1,11 +1,12 @@
 #from Empleado import *
 from Sucursal import *
-from Producto import *
+#from Producto import *
 import Empleado
+import Producto
 
 #empleado = Empleado()
 sucursal = Sucursal()
-producto = Producto()
+#producto = Producto()
 
 
 def menuPrincipal():
@@ -26,7 +27,7 @@ def menuPrincipal():
             if opcion == 1:
                Empleado.manejaEmpleados()
             elif opcion == 2:
-                print("Esto aun no esta implementado :(")
+                Producto.manejaProductos()
             elif opcion == 3:
                print("Esto aun no esta implementado :(")
             elif opcion == 4:

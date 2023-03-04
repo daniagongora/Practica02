@@ -166,9 +166,9 @@ def editarEmpleado():
                     nuevo = input(" Escribe la nueva sucursal donde trabajara el empleado: ")
                     if(Empleado.sucursal):
                         print("Este empleado ya trabaja en una sucursal, pudes cambiarla pero se sobrescribira ")
-                        empleados.iloc[Empleado.renglonEmpleado(id),7] = nuevo
+                        empleados.iloc[Empleado.renglonEmpleado(id),8] = nuevo
                     else:
-                        empleados.iloc[Empleado.renglonEmpleado(id),7] = nuevo
+                        empleados.iloc[Empleado.renglonEmpleado(id),8] = nuevo
                         Empleado.sucursal = True
                     seguir = False
                 else:
