@@ -3,9 +3,10 @@ from Sucursal import *
 #from Producto import *
 import Empleado
 import Producto
+import Sucursal
 
 #empleado = Empleado()
-sucursal = Sucursal()
+#sucursal = Sucursal()
 #producto = Producto()
 
 
@@ -25,11 +26,11 @@ def menuPrincipal():
             print("Opcion: ")
             opcion = (int(input()))
             if opcion == 1:
-               Empleado.manejaEmpleados()
+                Empleado.manejaEmpleados()
             elif opcion == 2:
                 Producto.manejaProductos()
             elif opcion == 3:
-               print("Esto aun no esta implementado :(")
+                Sucursal.manejaSucursales()
             elif opcion == 4:
                 print("Gracias por ingresar a la base de datos")
                 seguir = False

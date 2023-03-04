@@ -1,15 +1,10 @@
 import pandas as pd
 
 class Empleado:
-    
-    #Atributo para conocer si un empleado ya esta asignado a una sucursal
-    sucursal = False
 
-    def __init__(self, sucursal):
-        """
-        Método constructor.
-        """
-        self.sucursal = sucursal
+    """
+        Clase empleado
+    """
     
     def IDEmpleado():
         """
@@ -19,8 +14,7 @@ class Empleado:
         id = empleados.iloc[-1,0]
         unicoID = id[0] + str(int(id[1:])+1)
         return unicoID
-    
-    
+      
     def existeEmpleado(id):
         """
         Método que verifica si existe ya un empleado 
@@ -31,7 +25,6 @@ class Empleado:
                 return True
 
         return False
-    
     
     def renglonEmpleado(id):
         """
@@ -55,10 +48,74 @@ class Empleado:
         #sucursal = sucursal+1
         return empleados.iloc[renglon,8]
     
-    
-    
-    
-  
+    def infoEmpleado(id):
+        """
+        Metodo que filtra la informacion del empleado
+        por los atributos y los regresa. 
+
+        Args:
+            id: id del empleado
+        """
+        # Cargamos el archivo csv de empleados
+        empleados = pd.read_csv("Empleado.csv") 
+
+        # Busca por IdEmpleado
+        empleados.set_index("IdEmpleado",inplace=True)
+
+        menu ="""
+
+            [1] Nombre
+            [2] Correo
+            [3] Telefono
+            [4] Direccion
+            [5] Salario
+            [6] Fecha de nacimiento
+            [7] Puesto
+            [8] Sucursal
+            [9] Salir
+
+        """
+
+        resultado = None
+
+        while True:
+            
+            print(menu)
+
+            opcion = int(input("Elige una opcion: "))
+
+            if opcion == 1:
+                nombre = empleados.loc[id,"Nombre"]
+                resultado = nombre
+            elif opcion == 2:
+                correo = empleados.loc[id,"CorreoElectronico"]
+                if not(correo == None):
+                    resultado = correo.split()
+            elif opcion == 3:
+                telefono = empleados.loc[id,"Telefono"]
+                if not(telefono == None):
+                    resultado = str(telefono).split()
+            elif opcion == 4:
+                direccion = empleados.loc[id,"Direccion"]
+                resultado = direccion
+            elif opcion == 5:
+                salario = empleados.loc[id,"Salario"]
+                resultado = salario
+            elif opcion == 6:
+                fecha_nacimiento = empleados.loc[id,"FechaNacim"]
+                resultado = fecha_nacimiento
+            elif opcion == 7:
+                puesto = empleados.loc[id,"PuestoTrabajo"]
+                resultado = puesto
+            elif opcion == 8:
+                sucursal = empleados.loc[id,"Sucursal"]
+                resultado = sucursal
+            elif opcion == 9:
+                    break
+            else:
+                print("Esa no es una opcion valida")
+
+            return resultado
 
 def buscarEmpleado():
     """
@@ -67,8 +124,26 @@ def buscarEmpleado():
     empleados = pd.read_csv("Empleado.csv") 
     id = input("Pon el ID del empleado que quieres buscar ")
     if(Empleado.existeEmpleado(id) == True):
-        print("Resultado: ")
-        print(empleados.loc[[Empleado.renglonEmpleado(id)]])
+        menu = """
+
+            [1] Resumen
+            [2] Filtrar
+            [3] Salir
+
+        """
+        while True:
+            print(menu)
+            opcion = int(input("Elige una opcion: "))
+            if opcion == 1:
+                print("Resultado: ")
+                print(empleados.loc[[Empleado.renglonEmpleado(id)]])
+            elif opcion == 2:
+                resultado = Empleado.infoEmpleado(id=id)
+                print(f"Resultado: {resultado}")
+            elif opcion == 3:
+                break
+            else:
+                print("Esa no es una opcion valida")
     else:
         print("Ese empleado no existe")
 
@@ -100,12 +175,7 @@ def agregarEmpleado():
     fechaNac = input(" Escribe la fecha de nacimiento del empleado (Formato DD-MM-AAAA): ")
     puesto = input(" Escribe el puesto del empleado ")
     sucursal = input("Escribe la sucursal a la que pertence el empleado, recuerda que solo puede pertenecer a una ")
-    if(Empleado.sucursal):
-        print("Hay un error, un empleado no puede trabajar en más de una sucursal")
-        return
-    Empleado.sucursal = True
     nuevoEmpleado = pd.Series([id, nombre, correo, telefono, direccion, salario, fechaNac, puesto, sucursal], index=["IdEmpleado","Nombre","CorreoElectronico","Telefono","Direccion","Salario","FechaNacim","PuestoTrabajo","Sucursal"])
-    #print(nuevoEmpleado)
     resultado = pd.concat([empleados, nuevoEmpleado.to_frame().T], ignore_index=False)
     print(resultado)
     resultado.to_csv("Empleado.csv", index=False)
@@ -164,13 +234,8 @@ def editarEmpleado():
                     seguir = False
                 elif opcion == 8:
                     nuevo = input(" Escribe la nueva sucursal donde trabajara el empleado: ")
-                    if(Empleado.sucursal):
-                        print("Este empleado ya trabaja en una sucursal, pudes cambiarla pero se sobrescribira ")
-                        empleados.iloc[Empleado.renglonEmpleado(id),8] = nuevo
-                    else:
-                        empleados.iloc[Empleado.renglonEmpleado(id),8] = nuevo
-                        Empleado.sucursal = True
-                    seguir = False
+                    nuevo = "'" + nuevo + "'"
+                    empleados.iloc[Empleado.renglonEmpleado(id),8] = nuevo
                 else:
                     print("Escribe una opcion valida")
             except:
@@ -178,8 +243,7 @@ def editarEmpleado():
         empleados.to_csv("Empleado.csv", index=False)
     else:
         print("No existe ese empleado, intenta de nuevo")
-
-
+    
 def manejaEmpleados():
     """
     Muestra todo el manejo de datos que se tiene para los empleados
@@ -217,5 +281,7 @@ def manejaEmpleados():
                 print("Introduce una opcion valida")
         except:
             print("Introduce un numero.")
+
+
 
 
