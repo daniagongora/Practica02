@@ -18,13 +18,12 @@ def menuPrincipal():
     print("********** Bienvenido a la Base de Datos **********")
     while seguir:
         try:
-            print("-> Selecciona la entidad que quieres administrar:")
-            print("1. Empleados")
-            print("2. Productos")
-            print("3. Sucursales")
-            print("4. Salir")
-            print("Opcion: ")
-            opcion = (int(input()))
+            print("\nSelecciona la entidad que quieres administrar:\n")
+            print("[1] Empleados")
+            print("[2] Productos")
+            print("[3] Sucursales")
+            print("[4] Salir")
+            opcion = (int(input("\nOpcion: ")))
             if opcion == 1:
                 Empleado.manejaEmpleados()
             elif opcion == 2:
@@ -32,12 +31,12 @@ def menuPrincipal():
             elif opcion == 3:
                 Sucursal.manejaSucursales()
             elif opcion == 4:
-                print("Gracias por ingresar a la base de datos")
+                print("\nGracias por ingresar a la base de datos\n")
                 seguir = False
             else:
-                print("Por favor introduce una opcion valida")
+                print("\nPor favor, introduce una opcion valida.\n")
         except:
-            print("\nPor favor introduce un numero.")
+            print("\nPor favor, introduce un numero.\n")
 
 def main():
 	"""

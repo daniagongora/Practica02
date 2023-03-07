@@ -1,4 +1,9 @@
 import pandas as pd
+from datetime import datetime
+
+"""
+    Clase Producto
+"""
 class Producto:
    
     def IDProducto():
@@ -36,12 +41,12 @@ def buscarProducto():
     Método que nos permite buscar un empleado por su ID 
     """
     productos = pd.read_csv("Producto.csv") 
-    id = input("Pon el ID del empleado que quieres buscar ")
+    id = input("ID del empleado que quieres buscar ")
     if(Producto.existeProducto(id) == True):
-        print("Resultado: ")
+        print("\nResultado: \n")
         print(productos.loc[[Producto.renglonProducto(id)]])
     else:
-        print("Ese Producto no existe")
+        print("\nNo se encontro un producto con ese ID.")
 
 def eliminarProducto():
     
@@ -49,13 +54,13 @@ def eliminarProducto():
     Método para eliminar un Producto
     """
     productos = pd.read_csv("Producto.csv") 
-    id = input("ID del empleado a eliminar")
+    id = input("ID del empleado a eliminar: ")
     if(Producto.existeProducto(id) == True):
         resultado = productos.drop(productos.index[Producto.renglonProducto(id)])
-        print("Se borro al Producto")
+        print("\nProducto eliminado.")
         resultado.to_csv("Producto.csv", index=False)
     else:
-        print("No existe ese Producto")
+        print("\nNo se encontro un producto con ese ID.")
 
 def agregarProducto():
     """
@@ -63,109 +68,180 @@ def agregarProducto():
     """
     productos = pd.read_csv("Producto.csv") 
     id = Producto.IDProducto()
-    nombre = input("\n- Escribe nombre del producto: ")
-    marca = input(" Escribe el nombre de la marca del producto ")
-    presentacion = input(" Escribe la presentación del producto ((bolsa, lata, botella, etc.): ")
-    precio = input(" Escribe el precio del producto")
-    cantidad = input(" Escribe la cantidad del producto ")
-    stock = input(" Escribe la cantidad de stock del producto: ")
-    refrigeracion = input(" Escribe si el producto requiere refrigeración (Si o No) ")
-    fechaElaboracion = input("Escribe la fecha de elaboración del producto (Formato DD-MM-AAAA)")
-    fechaCaducidad = input("Escribe la fecha de caducidad del producto (Formato DD-MM-AAAA)")
-    nuevoProducto = pd.Series([id, nombre, marca, presentacion, precio, cantidad, stock, refrigeracion, fechaElaboracion, fechaCaducidad], index=["IdProducto","Nombre","Marca","Presentacion","Precio","Cantidad","Stock","Refrigeracion","FechaElaboracion","FechaCaducidad"])
-    
+    nombre = input("\n- Escribe el nombre del producto: ")
+    marca = input("\n- Escribe el nombre de la marca del producto: ")
+    presentacion = input("\n- Escribe la presentación del producto (bolsa, lata, botella, etc.): ")
+    precio = (int(input("\n- Escribe el precio del producto: ")))
+    cantidad = (int(input("\n- Escribe la cantidad del producto: ")))
+    stock = (int(input("\n- Escribe la cantidad de stock del producto: ")))
+    respuestaRefrigeracion = 1
+    while respuestaRefrigeracion != 1 or respuestaRefrigeracion != 2:
+        respuestaRefrigeracion = (int(input("\n- ¿El producto requiere refrigeración?\n\n\t [1] Si [2] No\n\nOpcion: ")))
+        if respuestaRefrigeracion == 1:
+            refrigeracion = "Si"
+            break
+        elif respuestaRefrigeracion == 2:
+            refrigeracion = "No"
+            break
+        else:
+            print("\nPor favor, ingresa una opcion valida.")
+
+    fechaElaboracion = input("\n- Escribe la fecha de elaboración del producto (Formato DD-MM-AAAA): " )
+    elaboracion_dt = datetime.strptime(fechaElaboracion, '%d-%m-%Y')
+    if(validaFechaProducto(fechaElaboracion, 1) == False):
+        print("\nFecha invalida, por favor ingresa una fecha REAL en formato DD-MM-AAAA.")
+        return
+    fechaCaducidad = input("\n- Escribe la fecha de caducidad del producto (Formato DD-MM-AAAA): " )
+    caducidad_dt = datetime.strptime(fechaCaducidad, '%d-%m-%Y')
+    if(validaFechaProducto(fechaCaducidad, 2) == False):
+        print("\nFecha invalida, por favor ingresa una fecha en formato DD-MM-AAAA.")
+        return
+    elif(caducidad_dt.date() < elaboracion_dt.date()):
+        print("\nFecha invalida, la fecha de caducidad no puede ser menor a la fecha de elaboracion.")
+        return
+    nuevoProducto = pd.Series([id, nombre, marca, presentacion, precio, cantidad, stock, refrigeracion, fechaElaboracion, fechaCaducidad], index=["ID","Nombre","Marca","Presentacion","Precio","Cantidad","Stock","Refrigeracion","Elaboracion","Caducidad"])
     resultado = pd.concat([productos, nuevoProducto.to_frame().T], ignore_index=False)
-    print(resultado)
     resultado.to_csv("Producto.csv", index=False)
-    print("Producto agregado al archivo.")
+    print("\nProducto agregado al archivo.")
 
 def editarProducto():
     """
     Método para modificar los datos de un empleado
     """
     productos = pd.read_csv("Producto.csv") 
-    id = input("\n-> Escribe el ID del empleado que quieres editar: ")
+    id = input("\nEscribe el ID del producto que quieres editar: ")
     if(Producto.existeProducto(id)):
         seguir = True
         while seguir:
             try:
                 
                 print("\n- Escribe el número del dato que quieras editar ")
-                print("1.- Nombre")
-                print("2.- Marca")
-                print("3.- Presentación")
-                print("4.- Precio")
-                print("5.- Cantidad")
-                print("6.- Cantidad de Stock")
-                print("7.- Refrigeración")
-                print("8.- Fecha de elaboración")
-                print("9.- Fecha de Caducidad")
-                print("Escogiste la opcion: ")
-                opcion = (int(input()))
+                print("\n[1] Nombre")
+                print("[2] Marca")
+                print("[3] Presentación")
+                print("[4] Precio")
+                print("[5] Cantidad")
+                print("[6] Cantidad de Stock")
+                print("[7] Refrigeración")
+                print("[8] Fecha de Elaboracion")
+                print("[9] Fecha de Caducidad")
+                print("[10] Atras")
+                opcion = (int(input("\nOpcion: ")))
                 
                 if opcion == 1:
-                    nuevo = input(" Escribe el nuevo nombre del producto: ")
+                    nuevo = input("\n- Escribe el nuevo nombre del producto: ")
                     productos.iloc[Producto.renglonProducto(id),1] = nuevo
-                    seguir = False
                 elif opcion == 2:
-                    nuevo = input(" Escribe la nueva marca del producto: ")
+                    nuevo = input("\n- Escribe la nueva marca del producto: ")
                     productos.iloc[Producto.renglonProducto(id),2] = nuevo
-                    seguir = False
                 elif opcion == 3:
-                    nuevo = input(" Escribe la nueva presentación del producto: ")
+                    nuevo = input("\n- Escribe la nueva presentación del producto: ")
                     productos.iloc[Producto.renglonProducto(id),3] = nuevo
-                    seguir = False
                 elif opcion == 4:
-                    nuevo = input(" Escribe el nuevo precio del producto: ")
+                    nuevo = (int(input("\n- Escribe el nuevo precio del producto: ")))
                     productos.iloc[Producto.renglonProducto(id),4] = nuevo
-                    seguir = False
                 elif opcion == 5:
-                    nuevo = input(" Escribe la nueva cantidad del producto: ")
+                    nuevo = (int(input("\n- Escribe la nueva cantidad del producto: ")))
                     productos.iloc[Producto.renglonProducto(id),5] = nuevo
-                    seguir = False
                 elif opcion == 6:
-                    nuevo = input(" Escribe la nueva cantidad de stock del producto: ")
+                    nuevo = (int(input("\n- Escribe la nueva cantidad de stock del producto: ")))
                     productos.iloc[Producto.renglonProducto(id),6] = nuevo
-                    seguir = False
                 elif opcion == 7:
-                    nuevo = input(" Escribe si el producto requiere refrigeración o no (Si o No): ")
-                    productos.iloc[Producto.renglonProducto(id),7] = nuevo
-                    seguir = False
+                    nuevaRespuesta = 1
+                    while nuevaRespuesta != 1 or nuevaRespuesta != 2:
+                        nuevaRespuesta = (int(input("\n- ¿El producto requiere refrigeración?\n\n\t [1] Si [2] No\n\nOpcion: ")))
+                        if nuevaRespuesta == 1:
+                            nuevaRefrigeracion = "Si"
+                            break
+                        elif nuevaRespuesta == 2:
+                            nuevaRefrigeracion = "No"
+                            break
+                        else:
+                            print("\nPor favor, ingresa una opcion valida.")
+                    productos.iloc[Producto.renglonProducto(id),7] = nuevaRefrigeracion
                 elif opcion == 8:
-                    nuevo = input(" Escribe la nueva fecha de elaboración del producto: ")
-                    productos.iloc[Producto.renglonProducto(id),8] = nuevo
-                    seguir = False
+                    nuevaFechaElab = input("\n- Escribe la nueva fecha de elaboración del producto (Formato DD-MM-AAAA): ")
+                    nuevaElaboracion_dt = datetime.strptime(nuevaFechaElab, '%d-%m-%Y')
+                    if(validaFechaProducto(nuevaFechaElab, 1) == False):
+                        print("\nFecha invalida, por favor ingresa una fecha REAL en formato DD-MM-AAAA.")
+                        return
+                    productos.iloc[Producto.renglonProducto(id),8] = nuevaFechaElab
+                    elaboracion_dt = nuevaElaboracion_dt
                 elif opcion == 9:
-                    nuevo = input(" Escribe la nueva fecha de caducidad del producto: ")
-                    productos.iloc[Producto.renglonProducto(id),9] = nuevo
+                    nuevaFechaCad = input("\n- Escribe la nueva fecha de caducidad del producto (Formato DD-MM-AAAA): ")
+                    nuevaCaducidad_dt = datetime.strptime(nuevaFechaCad, '%d-%m-%Y')
+                    if(validaFechaProducto(nuevaFechaCad, 2) == False):
+                        print("\nFecha invalida, por favor ingresa una fecha en formato DD-MM-AAAA.")
+                        return
+                    elif(nuevaCaducidad_dt.date() < elaboracion_dt.date()):
+                        print("\nFecha invalida, la fecha de caducidad no puede ser menor a la fecha de elaboracion.")
+                        return
+                    productos.iloc[Producto.renglonProducto(id),9] = nuevaFechaCad
+                    caducidad_dt = nuevaCaducidad_dt
+                elif opcion == 10:
                     seguir = False
                 else:
-                    print("Escribe una opcion valida")
+                    print("\nPor favor, ingresa una opcion valida.")
             except:
-                print("Escribe un numero")
+                print("\nPor favor, ingresa un numero.")
         productos.to_csv("Producto.csv", index=False)
     else:
-        print("No existe ese Producto, intenta de nuevo")
+        print("\nNo se encontro un producto con ese ID.")
 
+
+def validaFechaProducto(fecha, funcion):
+    """
+    Metodo que verifica si la fecha es válida y real en formato DD-MM-AAAA.
+    el parametro funcion se utiliza para diferenciar entre la modalidad de la funcion
+    1 para que no cuente fechas futuras
+    2 para que cuente fechas futuras
+    """
+    if funcion == 1:
+
+        try:
+            # Convierte la fecha en un objeto datetime.
+            fecha_dt = datetime.strptime(fecha, '%d-%m-%Y')
+            
+            # Verifica si la fecha es anterior a la fecha actual.
+            if fecha_dt.date() > datetime.now().date():
+                return False
+            
+            return True
+        except ValueError:
+            return False
+
+    elif funcion == 2:
+
+        try:
+            # Convierte la fecha en un objeto datetime.
+            fecha_dt = datetime.strptime(fecha, '%d-%m-%Y')
+
+            return True
+        except ValueError:
+            return False
+
+    else:
+        print("\nPor favor, ingresa una opcion valida.")
 
 def manejaProductos():
     """
     Muestra todo el manejo de datos que se tiene para los empleados
     """
     seguir = True
-    print("           Base de Datos para Productos         ")
+    print("\n           Base de Datos para Productos         ")
     while seguir:
         try:
             productos = pd.read_csv("Producto.csv")
-            print("\n-> Escribe que opcion quieres realizar")
-            print("1. Ver Productos")
-            print("2. Agregar un producto")
-            print("3. Editar datos de un productos")
-            print("4. Eliminar a un producto")
-            print("5. Buscar a un producto mediante su ID")
-            print("6. Atras")
-            opcion = (int(input()))
+            print("\nEscribe que opcion quieres realizar")
+            print("\n[1] Ver Productos")
+            print("[2] Agregar producto")
+            print("[3] Editar datos de un producto")
+            print("[4] Eliminar producto")
+            print("[5] Buscar producto mediante ID")
+            print("[6] Atras")
+            opcion = (int(input("\nOpcion: ")))
             if opcion == 1:
+                print("\t\t\t\t\t\t  PRODUCTOS\n")
                 print(productos)
             elif opcion == 2:
                 productos = pd.read_csv("Producto.csv")
@@ -182,6 +258,6 @@ def manejaProductos():
             elif opcion == 6:
                 seguir = False
             else:
-                print("Introduce una opcion valida")
+                print("\nPor favor, introduce una opcion valida.")
         except:
-            print("Introduce un numero.")
+            print("\nPor favor, introduce un numero.")
