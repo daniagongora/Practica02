@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 
 """
-    Clase empleado
+    Clase Empleado
 """
 class Empleado:
     
@@ -18,7 +18,7 @@ class Empleado:
       
     def existeEmpleado(id):
         """
-        Método que verifica si existe ya un empleado 
+        Método que verifica si existe ya un empleado.
         """
         empleados = pd.read_csv("Empleado.csv")
         for i in range(0, len(empleados)):
@@ -29,7 +29,7 @@ class Empleado:
     
     def renglonEmpleado(id):
         """
-        Método que devuelve el numero de reglon donde se encuentra el empleado
+        Método que devuelve el numero de reglon donde se encuentra el empleado.
         """
         empleados = pd.read_csv("Empleado.csv")
         for i in range(0, len(empleados)):
@@ -39,19 +39,18 @@ class Empleado:
     
     def sucursalEmpleado(id):
         """
-        Metodo que regresa la sucursal a la que pertenece un empleado.
+        Método que regresa la sucursal a la que pertenece un empleado.
         """
         renglon = 0
         empleados = pd.read_csv("Empleado.csv")
         for i in range(0, len(empleados)):
             if(empleados.iloc[i,0] == id):
                 renglon = i
-        #sucursal = sucursal+1
         return empleados.iloc[renglon,8]
 
 def buscarEmpleado():
         """
-        Método que nos permite buscar un empleado por su ID 
+        Método que nos permite buscar un empleado por su ID.
         """
         empleados = pd.read_csv("Empleado.csv") 
         id = input("\nID del empleado que quieres buscar: ")
@@ -62,9 +61,8 @@ def buscarEmpleado():
             print("\nNo se encontro un empleado con ese ID.")
 
 def eliminarEmpleado():
-        
         """
-        Método para eliminar un empleado
+        Método para eliminar un empleado.
         """
         empleados = pd.read_csv("Empleado.csv") 
         id = input("\nID del empleado a eliminar: ")
@@ -77,7 +75,7 @@ def eliminarEmpleado():
 
 def agregarEmpleado():
         """
-        Método para agregar un empleado
+        Método para agregar un empleado.
         """
         empleados = pd.read_csv("Empleado.csv") 
         id = Empleado.IDEmpleado()
@@ -92,7 +90,7 @@ def agregarEmpleado():
         correos = correo
         seguirCorreo = True
         while seguirCorreo:
-            print("\n¿Desea agregar otro correo electronico?\n\n\t [1] Si [2] No\n\nOpcion: ")
+            print("\n¿Desea agregar otro correo electronico?\n\n\t [1] Si [2] No\n\n")
             respuestaCorreo = (int(input("Opcion: ")))
             if respuestaCorreo == 1:
                 correo = input("\n- Escribe el correo electronico del empleado: ")
@@ -108,7 +106,7 @@ def agregarEmpleado():
                 seguirCorreo = True
         telefono = input("\n- Escribe el número de telefono del empleado: ")
         if(validaNumeroTelefonico(telefono) == False):
-            print("\nTelefono invalido, por favor ingresa un numero de 10 digitos")
+            print("\nTelefono invalido, por favor ingresa un numero de 10 digitos.")
             return
         telefonos = telefono
         seguirTelefono = True    
@@ -118,7 +116,7 @@ def agregarEmpleado():
             if respuestaTelefono == 1:
                 telefono = input("\n- Escribe el número de telefono del empleado: ")
                 if(validaNumeroTelefonico(telefono) == False):
-                    print("\nTelefono invalido, por favor ingresa un numero de 10 digitos")
+                    print("\nTelefono invalido, por favor ingresa un numero de 10 digitos.")
                     return
                 telefonos = telefonos+" "+telefono
                 seguirTelefono = True
@@ -131,7 +129,7 @@ def agregarEmpleado():
         salario = (int(input("\n- Escribe el salario del empleado: ")))
         fechaNac = input("\n- Escribe la fecha de nacimiento del empleado (Formato DD-MM-AAAA): ")
         if(validaFechaNacimiento(fechaNac) == False):
-                print("\nFecha invalida, por favor ingresa una fecha de nacimiento REAL en formato DD-MM-AAAA")
+                print("\nFecha invalida, por favor ingresa una fecha de nacimiento REAL en formato DD-MM-AAAA.")
                 return
         puesto = input("\n- Escribe el puesto del empleado: ")
         sucursal = input("\n- Escribe la sucursal a la que pertence el empleado (Recuerda que solo puede pertenecer a una): ")
@@ -142,16 +140,15 @@ def agregarEmpleado():
 
 def editarEmpleado():
         """
-        Método para modificar los datos de un empleado
+        Método para modificar los datos de un empleado.
         """
         empleados = pd.read_csv("Empleado.csv") 
-        id = input("\nEscribe el ID del empleado que quieres editar: ")
+        id = input("\n- Escribe el ID del empleado que quieres editar: ")
         if(Empleado.existeEmpleado(id)):
             seguir = True
             while seguir:
                 try:
-                    
-                    print("\nEscribe el número del dato que quieras editar")
+                    print("\n- Escribe el número del dato que quieras editar: ")
                     print("\n[1] Nombre")
                     print("[2] Correo Electronico")
                     print("[3] Telefono")
@@ -192,17 +189,17 @@ def editarEmpleado():
                     elif opcion == 3:       
                         nuevo = input("\n- Escribe el nuevo telefono del empleado: ")
                         if(validaNumeroTelefonico(nuevo) == False):
-                            print("\nTelefono invalido, por favor ingresa un numero de 10 digitos")
+                            print("\nTelefono invalido, por favor ingresa un numero de 10 digitos.")
                             return
                         nuevos = nuevo
                         seguirTelefono = True    
                         while seguirTelefono:
-                            print("\n¿Desea agregar otro numero telefonico?\n\n\t [1] Si [2] No\n\nOpcion: ")
-                            respuestaTelefono = (int(input("Opcion: ")))
+                            print("\n¿Desea agregar otro numero telefonico?\n\n\t [1] Si [2] No")
+                            respuestaTelefono = (int(input("\nOpcion: ")))
                             if respuestaTelefono == 1:
                                 nuevo = input("\n- Escribe el número de telefono del empleado: ")
                                 if(validaNumeroTelefonico(nuevo) == False):
-                                    print("\nTelefono invalido, por favor ingresa un numero de 10 digitos")
+                                    print("\nTelefono invalido, por favor ingresa un numero de 10 digitos.")
                                     return
                                 nuevos = nuevos+" "+nuevo
                                 seguirTelefono = True
@@ -221,7 +218,7 @@ def editarEmpleado():
                     elif opcion == 6:
                         nuevo = input("\n- Escribe la nueva fecha de nacimiento del empleado (Formato DD-MM-AAAA): ")
                         if(validaFechaNacimiento(nuevo) == False):
-                            print("\nFecha invalida, por favor ingresa una fecha de nacimiento REAL en formato DD-MM-AAAA")
+                            print("\nFecha invalida, por favor ingresa una fecha de nacimiento REAL en formato DD-MM-AAAA.")
                             return
                         empleados.iloc[Empleado.renglonEmpleado(id),6] = nuevo
                     elif opcion == 7:
@@ -235,7 +232,7 @@ def editarEmpleado():
                     else:
                         print("\nPor favor, ingresa una opcion valida.")
                 except:
-                    print("\nPor favor, ingresa un numero")
+                    print("\nPor favor, ingresa un numero.")
             empleados.to_csv("Empleado.csv", index=False)
         else:
             print("\nNo se encontro un empleado con ese ID.")
@@ -243,7 +240,7 @@ def editarEmpleado():
 
 def validaNombre(nombre):
     """
-    Metodo que verifica si el nombre solo contiene letras.
+    Método que verifica si el nombre solo contiene letras.
     """
     # Expresión regular para verificar solo letras.
     patron = re.compile("^[a-zA-Z]+$")
@@ -256,7 +253,7 @@ def validaNombre(nombre):
 
 def validaCorreo(correo):
     """
-    Metodo que verifica si la dirección de correo electrónico es válida.
+    Método que verifica si la dirección de correo electrónico es válida.
     """
     # Expresión regular para verificar si el correo es válido.
     patron = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
@@ -269,7 +266,7 @@ def validaCorreo(correo):
 
 def validaNumeroTelefonico(telefono):
     """
-    Metodo que verifica si el número de teléfono es válido.
+    Método que verifica si el número de teléfono es válido.
     """
     # Expresión regular para verificar si el teléfono es válido.
     patron = re.compile(r'^\d{10}$')
@@ -282,7 +279,7 @@ def validaNumeroTelefonico(telefono):
 
 def validaFechaNacimiento(fecha):
     """
-    Metodo que verifica si la fecha es válida y real en formato DD-MM-AAAA.
+    Método que verifica si la fecha es válida y real en formato DD-MM-AAAA.
     """
     try:
         # Convierte la fecha en un objeto datetime.
@@ -297,43 +294,43 @@ def validaFechaNacimiento(fecha):
         return False
 
 def manejaEmpleados():
-        """
-        Muestra todo el manejo de datos que se tiene para los empleados
-        """
-        seguir = True
-        print("\n           Base de Datos para Empleados         ")
-        while seguir:
-            try:
+    """
+    Muestra todo el manejo de datos que se tiene para los empleados.
+    """
+    seguir = True
+    print("\n           Base de Datos para Empleados         ")
+    while seguir:
+        try:
+            empleados = pd.read_csv("Empleado.csv")
+            print("\nEscribe que opcion quieres realizar: \n")
+            print("[1] Ver Empleados")
+            print("[2] Agregar empleado")
+            print("[3] Editar datos de un empleado")
+            print("[4] Eliminar empleado")
+            print("[5] Buscar empleado mediante ID")
+            print("[6] Atras")
+            opcion = (int(input("\nOpcion: ")))
+            if opcion == 1:
+                print("\t\t\t EMPLEADOS\n")
+                print(empleados)
+            elif opcion == 2:
                 empleados = pd.read_csv("Empleado.csv")
-                print("\nEscribe que opcion quieres realizar\n")
-                print("[1] Ver Empleados")
-                print("[2] Agregar empleado")
-                print("[3] Editar datos de un empleado")
-                print("[4] Eliminar empleado")
-                print("[5] Buscar empleado mediante ID")
-                print("[6] Atras")
-                opcion = (int(input("\nOpcion: ")))
-                if opcion == 1:
-                    print("\t\t\t\t\t\t  EMPLEADOS\n")
-                    print(empleados)
-                elif opcion == 2:
-                    empleados = pd.read_csv("Empleado.csv")
-                    agregarEmpleado()
-                elif opcion == 3:
-                    empleados = pd.read_csv("Empleado.csv")
-                    editarEmpleado()
-                elif opcion == 4:
-                    empleados = pd.read_csv("Empleado.csv")
-                    eliminarEmpleado()
-                elif opcion == 5:
-                    empleados = pd.read_csv("Empleado.csv")
-                    buscarEmpleado()
-                elif opcion == 6:
-                    seguir = False
-                else:
-                    print("\nPor favor, introduce una opcion valida.")
-            except:
-                print("\nPor favor, introduce un numero.")
+                agregarEmpleado()
+            elif opcion == 3:
+                empleados = pd.read_csv("Empleado.csv")
+                editarEmpleado()
+            elif opcion == 4:
+                empleados = pd.read_csv("Empleado.csv")
+                eliminarEmpleado()
+            elif opcion == 5:
+                empleados = pd.read_csv("Empleado.csv")
+                buscarEmpleado()
+            elif opcion == 6:
+                seguir = False
+            else:
+                print("\nPor favor, ingresa una opcion valida.")
+        except:
+            print("\nPor favor, ingresa un numero.")
 
 
 

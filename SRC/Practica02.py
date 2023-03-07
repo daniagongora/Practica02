@@ -1,21 +1,14 @@
-#from Empleado import *
 from Sucursal import *
-#from Producto import *
 import Empleado
 import Producto
 import Sucursal
 
-#empleado = Empleado()
-#sucursal = Sucursal()
-#producto = Producto()
-
-
 def menuPrincipal():
-    '''
-    Menu principal
-    '''
+    """
+    Menu principal.
+    """
     seguir = True
-    print("********** Bienvenido a la Base de Datos **********")
+    print("\n\n********** Bienvenido a la Base de Datos **********")
     while seguir:
         try:
             print("\nSelecciona la entidad que quieres administrar:\n")
@@ -31,7 +24,7 @@ def menuPrincipal():
             elif opcion == 3:
                 Sucursal.manejaSucursales()
             elif opcion == 4:
-                print("\nGracias por ingresar a la base de datos\n")
+                print("\nGracias por ingresar a la base de datos!\n")
                 seguir = False
             else:
                 print("\nPor favor, introduce una opcion valida.\n")
@@ -40,10 +33,9 @@ def menuPrincipal():
 
 def main():
 	"""
-	Ejecuta el menu principal que corre la base de datos
+	Ejecuta el menu principal que corre la base de datos.
 	"""
 	menuPrincipal()
 	
 if __name__=="__main__":
-
 	main()

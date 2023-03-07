@@ -17,7 +17,7 @@ class Producto:
    
     def existeProducto(id):
         """
-        Método que verifica si existe ya un Producto 
+        Método que verifica si existe ya un Producto.
         """
         productos = pd.read_csv("Producto.csv")
         for i in range(0, len(productos)):
@@ -28,7 +28,7 @@ class Producto:
     
     def renglonProducto(id):
         """
-        Método que devuelve el numero de reglon donde se encuentra el Producto
+        Método que devuelve el numero de reglon donde se encuentra el Producto.
         """
         productos = pd.read_csv("Producto.csv")
         for i in range(0, len(productos)):
@@ -38,10 +38,10 @@ class Producto:
     
 def buscarProducto():
     """
-    Método que nos permite buscar un empleado por su ID 
+    Método que nos permite buscar un empleado por su ID.
     """
     productos = pd.read_csv("Producto.csv") 
-    id = input("ID del empleado que quieres buscar ")
+    id = input("- ID del empleado que quieres buscar: ")
     if(Producto.existeProducto(id) == True):
         print("\nResultado: \n")
         print(productos.loc[[Producto.renglonProducto(id)]])
@@ -49,12 +49,11 @@ def buscarProducto():
         print("\nNo se encontro un producto con ese ID.")
 
 def eliminarProducto():
-    
     """
-    Método para eliminar un Producto
+    Método para eliminar un Producto.
     """
     productos = pd.read_csv("Producto.csv") 
-    id = input("ID del empleado a eliminar: ")
+    id = input("- ID del empleado a eliminar: ")
     if(Producto.existeProducto(id) == True):
         resultado = productos.drop(productos.index[Producto.renglonProducto(id)])
         print("\nProducto eliminado.")
@@ -64,7 +63,7 @@ def eliminarProducto():
 
 def agregarProducto():
     """
-    Método para agregar un Producto
+    Método para agregar un Producto.
     """
     productos = pd.read_csv("Producto.csv") 
     id = Producto.IDProducto()
@@ -106,16 +105,15 @@ def agregarProducto():
 
 def editarProducto():
     """
-    Método para modificar los datos de un empleado
+    Método para modificar los datos de un empleado.
     """
     productos = pd.read_csv("Producto.csv") 
-    id = input("\nEscribe el ID del producto que quieres editar: ")
+    id = input("\n- Escribe el ID del producto que quieres editar: ")
     if(Producto.existeProducto(id)):
         seguir = True
         while seguir:
             try:
-                
-                print("\n- Escribe el número del dato que quieras editar ")
+                print("\n- Escribe el número del dato que quieras editar: ")
                 print("\n[1] Nombre")
                 print("[2] Marca")
                 print("[3] Presentación")
@@ -191,10 +189,10 @@ def editarProducto():
 
 def validaFechaProducto(fecha, funcion):
     """
-    Metodo que verifica si la fecha es válida y real en formato DD-MM-AAAA.
-    el parametro funcion se utiliza para diferenciar entre la modalidad de la funcion
-    1 para que no cuente fechas futuras
-    2 para que cuente fechas futuras
+    Método que verifica si la fecha es válida y real en formato DD-MM-AAAA.
+    El parametro funcion se utiliza para diferenciar entre la modalidad de la funcion.
+    (1) para que no cuente fechas futuras.
+    (2) para que cuente fechas futuras.
     """
     if funcion == 1:
 
@@ -225,14 +223,14 @@ def validaFechaProducto(fecha, funcion):
 
 def manejaProductos():
     """
-    Muestra todo el manejo de datos que se tiene para los empleados
+    Método que muestra todo el manejo de datos que se tiene para los empleados.
     """
     seguir = True
     print("\n           Base de Datos para Productos         ")
     while seguir:
         try:
             productos = pd.read_csv("Producto.csv")
-            print("\nEscribe que opcion quieres realizar")
+            print("\n- Escribe que opcion quieres realizar:")
             print("\n[1] Ver Productos")
             print("[2] Agregar producto")
             print("[3] Editar datos de un producto")
@@ -241,7 +239,7 @@ def manejaProductos():
             print("[6] Atras")
             opcion = (int(input("\nOpcion: ")))
             if opcion == 1:
-                print("\t\t\t\t\t\t  PRODUCTOS\n")
+                print("\t\t\t  PRODUCTOS\n")
                 print(productos)
             elif opcion == 2:
                 productos = pd.read_csv("Producto.csv")
@@ -258,6 +256,6 @@ def manejaProductos():
             elif opcion == 6:
                 seguir = False
             else:
-                print("\nPor favor, introduce una opcion valida.")
+                print("\nPor favor, ingresa una opcion valida.")
         except:
-            print("\nPor favor, introduce un numero.")
+            print("\nPor favor, ingresa un numero.")

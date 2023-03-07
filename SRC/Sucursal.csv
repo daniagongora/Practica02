@@ -1,2 +1,4 @@
-IdSucursal,Nombre,Direccion,Telefono,FechaApertura
-S1004,puebla,la villa 55420 Puebla,5519874635,24-08-2002
+ID,Nombre,Direccion,Telefono,Apertura
+S1005,Walmart,Muy muy lejano,5512345678,20-10-2001
+S1006,Costco,Muy muy lejano,5512345678 5587654321,20-10-2022
+S1007,Waldos,Muy muy lejano,5587654321,30-03-2001
